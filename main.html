@@ -1,0 +1,197 @@
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+        <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>        
+    </head>
+    <body>
+        
+        <ons-splitter>
+            <!-- the splitter-side is in this case the menu but could also be help notes, hidden tools etc. -->
+            <ons-splitter-side id="menu" side="left" width="220px" collapse swipeable>
+                <!-- the menu should be contained in an ons-page -->
+                <ons-page>
+                    <ons-list>
+                        <!-- the home (and about) pages are in-line templates in this file so we pass the id -->
+                        <ons-list-item onclick="location.href='signin.html'" tappable>
+                            SIGIN/ SIGNUP
+                        </ons-list-item>
+                        <!-- these pages are loaded by url -->                        
+                        <ons-list-item onclick="location.href='main.html'" tappable>
+                            VIEW RECIPES
+                        </ons-list-item>
+                        <!-- these pages are loaded by url -->                        
+                        <ons-list-item onclick="location.href='index.html'" tappable>
+                            SAVED RECIPE
+                        </ons-list-item>
+                        <ons-list-item onclick="location.href='index.html'" tappable>
+                            HELP
+                        </ons-list-item>
+
+                    </ons-list>
+                </ons-page>
+            </ons-splitter-side>
+        
+        <ons-navigator swipeable id="myNavigator" page="main-temp"></ons-navigator>
+
+        <template id="main-temp">
+            <ons-page id="main-page">
+                <ons-toolbar>
+                    
+                    <div class="left">
+                        <!-- toolbar-buttons by default, -->
+                        <ons-toolbar-button onclick="ex2Func.open()">
+                            <!-- ons-icon loads the material design menu icon here -->
+                            <ons-icon icon="md-menu" style="color:pink;"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                    <div class="center">Recipes</div>
+
+                    <div class="right">
+                        <ons-toolbar-button id="home-button"> 
+                            <ons-icon icon="md-home" style="color:pink;"></ons-icon>
+                        </ons-toolbar-button>
+                    </div>
+                </ons-toolbar>
+                <ons-list>
+                    <ons-lazy-repeat id="dynamic-list"></ons-lazy-repeat>
+                </ons-list>                         
+            </ons-page>
+        </template>
+
+        <template id="single-temp">
+            <ons-page id="single-page">
+                <ons-toolbar>
+                    <div class="left"><ons-back-button style="color:pink;">Back</ons-back-button></div>
+                    <div class="center"></div>
+                </ons-toolbar>
+
+                <ons-card>
+                    <div><img style="max-width: 100%;" id="singleImg"></div>
+                    
+                    <div class="title" id="singleTitle" ></div>
+                     <h4>Directions</h4>
+                    <div class="content" id="singleContent" ></div>
+                </ons-card>
+            </ons-page>
+        </template>
+            
+            
+        </ons-splitter>
+        <script type="text/javascript" src="cordova.js"></script>        
+        <script type="text/javascript" src="./js/recipes-data.js"></script>
+
+        <script>   
+            // listen for when an element is initialized
+            document.addEventListener('init', function(event) {                  
+
+                // get a reference to the element (page that fired the init event)
+                var page = event.target;
+
+                // home button is only on the main page
+                if(page.id === 'main-page'){
+                        page.querySelector('#home-button').onclick = function() {
+                        window.location = './index.html';
+                    }; 
+                }                
+
+
+                if (page.id === 'single-page') {                    
+
+                    page.querySelector('ons-toolbar .center').innerHTML = page.data.cRecipes.title;
+
+                    page.querySelector('#singleImg').src = page.data.cRecipes.path;
+                    page.querySelector('#singleTitle').innerHTML = page.data.cRecipes.title;
+                  
+                    page.querySelector('#singleContent').innerHTML = page.data.cRecipes.desc;
+                }                
+            });         
+ 
+            ons.ready(function() {
+
+                // the lazy list element
+                var dynList = document.getElementById('dynamic-list');
+
+                // delegate is a member of the lazy list, it has a number of members
+                dynList.delegate = {
+
+
+                    createItemContent: function(i, template) {
+                        return ons.createElement(
+                            '<ons-list-item>' + 
+                            '<div class="left"><img class="list-item__thumbnail" src="' + recipesData[i].path + '"></div>' + 
+                            '<div class="center"><span class="list-item__title">' + recipesData[i].title + '</span><span class="list-item__subtitle">' + recipesData[i].shortDesc + '</span></div>' + 
+                            '<div class="right"><ons-button onclick="pushSingleView(' + i +')" icon="md-caret-right"></ons-button></div>' +
+                            '</ons-list-item>');
+                    },
+
+                    // provides a means for the list to know it's total items, in this case just using the array length
+                    countItems: function() {
+                        return recipesData.length;
+                    }
+
+                    // other delegates include: calculateItemHeight and destroyItem
+                    
+                };
+
+                dynList.refresh();
+            });
+
+            // fired by each button in the list
+            function pushSingleView(fIndex){
+                // get the current recipes from the data set based on the passed index
+                var currRecipes = recipesData[Number.parseInt(fIndex)];
+
+                // push the single page view on the stack and also add the current recipes as a data member
+                document.querySelector('#myNavigator').pushPage('single-temp', {data: {cRecipes: currRecipes}});
+
+            }
+
+            
+        </script>
+            
+            
+        <script type="text/javascript" src="cordova.js"></script>            
+        
+        <script>
+            // any event managers or other funcationality that should wait until the page init has completed
+            document.addEventListener('init', function(event) {            
+                var page = event.target;           
+
+                // in this case the home button is on all pages so we won't use a conditional
+                page.querySelector('#home-button').onclick = function() {
+                    window.location = './index.html';
+                };            
+            });
+
+            window.ex2Func = {};
+
+
+            window.ex2Func.open = function() {
+                var menu = document.getElementById('menu');
+                menu.open();
+            };
+
+
+            window.ex2Func.load = function(page) {
+                var content = document.getElementById('content');
+                var menu = document.getElementById('menu');
+                content.load(page)
+                    .then(menu.close.bind(menu));
+            };            
+        </script>
+            
+            <style>
+            .button {
+            background: pink;
+     }  </style>
+
+    </body>
+
+</html>

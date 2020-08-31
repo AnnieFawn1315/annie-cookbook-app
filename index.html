@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+        <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+        <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="css/common.css">        
+    </head>
+    <body>
+             
+        <ons-page>
+            <div class="head-icon">
+                <img src="./img/banner.png">
+                <br>
+                <img src="./img/logo.png">
+            </div>
+        
+
+        <div class="content-item">
+                <ons-button class="btn-link" data-src="signin.html" onclick="navPage(this)">❤️</ons-button><div>SIGN IN/ SIGN UP</div>
+            </div>      
+        <div class="content-item">
+                <ons-button class="btn-link" data-src="main.html" onclick="navPage(this)">❤️</ons-button> <div>VIEW RECIPES</div>
+            </div>      
+            <div class="content-item">
+                <ons-button class="btn-link" data-src="main.html" onclick="navPage(this)">
+                    ❤️</ons-button> <div>SAVED RECIPE</div>
+            </div>      
+            <div class="content-item">
+                <ons-button class="btn-link" data-src="main.html" onclick="navPage(this)">❤️</ons-button> <div>HELP</div>
+            </div>      
+            
+        </ons-page>
+        
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+
+        <script>
+
+            function navPage(target){
+                window.location = event.target.getAttribute('data-src');
+            }            
+
+        </script>
+        <style>
+            .content-item{
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bold;
+                background: white;
+            }
+        </style>
+    </body>
+    
+</html>

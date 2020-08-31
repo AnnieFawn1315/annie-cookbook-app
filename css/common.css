@@ -1,0 +1,63 @@
+
+.head-icon{    
+    padding: 15px 25px;    
+    text-align: center;
+}
+
+.head-icon img{
+    max-width: 75%;    
+}
+
+.content-item{
+    display: flex;
+    margin:15px;
+    align-items: center;
+}
+
+.content-item div{
+    margin-left: 15px;
+}
+
+.row-list-item{
+    margin-bottom: 15px;
+}
+
+/******* used for example 3 and 4 ******/
+.swipe-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;                
+}
+
+.swipe-space{
+    margin: 25px;                
+    padding:25px 15px;                   
+    height: 15vh;
+    background-color: #69a5f5;                                
+    font-size: 2em;                
+}
+
+        .button{
+            
+            background: pink;
+        }
+
+        
+    h1{
+        background: white;
+        padding: 10px;
+        font-family: 'Pacifico', cursive;
+
+}
+
+    body{
+        background-image: linear-gradient(32deg, #ffffff 18.64%, #d1d1d1 18.64%, #d1d1d1 50%, #ffffff 50%, #ffffff 68.64%, #d1d1d1 68.64%, #d1d1d1 100%);
+        background-size: 111.34px 69.57px;
+    }
+    .button {
+            background: pink;
+     }  
+
+.page, .page__background, .page__content {
+            background-image: linear-gradient(32deg, #ffffff 18.64%, #d1d1d1 18.64%, #d1d1d1 50%, #ffffff 50%, #ffffff 68.64%, #d1d1d1 68.64%, #d1d1d1 100%);
+        background-size: 111.34px 69.57px;
+}
